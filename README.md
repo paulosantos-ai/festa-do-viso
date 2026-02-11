@@ -1,208 +1,341 @@
-# Festa do Viso - Sistema de Sorteio Euromilhões
+# 🎉 Festa do Viso - Sistema de Sorteio Euromilhões
+
+<div align="center">
+
+![GitHub](https://img.shields.io/github/license/paulosantos-ai/festa-do-viso)
+![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue)
+![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-orange)
 
 Sistema web para gestão de sorteios baseados no último número do Euromilhões, desenvolvido para angariação de fundos da Comissão de Festas do Viso.
 
-## 📋 Requisitos
+[Demo](#-funcionalidades) • [Instalação](#-instalação-rápida) • [Documentação](#-documentação) • [Suporte](#-suporte)
 
-- Servidor web (Apache/Nginx)
-- PHP 7.4 ou superior
-- MySQL/MariaDB 5.7 ou superior
-- Extensões PHP necessárias:
-  - php-mysql (PDO)
-  - php-json
-  - php-session
+</div>
 
-## 🚀 Instalação
+---
 
-### 1. Configurar Base de Dados
+## 📖 Sobre
 
+Sistema completo de gestão de sorteios que permite aos participantes escolherem números de 1 a 49. O vencedor é determinado pelo último número do sorteio do Euromilhões de cada sexta-feira.
+
+### ✨ Funcionalidades
+
+#### 👥 Para Utilizadores
+- 🎯 Escolha de números (1-49) em interface visual intuitiva
+- 📝 Registo simples com nome e contacto
+- 👀 Visualização de números disponíveis/ocupados em tempo real
+- 🏆 Consulta de vencedores semanais
+- 📱 Design responsivo (desktop, tablet, mobile)
+
+#### 🔧 Para Administradores
+- 🔐 Painel de administração com autenticação segura
+- 📊 Criação e gestão de múltiplas folhas de sorteio
+- 📈 Estatísticas em tempo real
+- 🎲 Registo de resultados do Euromilhões
+- 👑 Gestão de vencedores
+- 📋 Visualização detalhada de cada folha
+
+---
+
+## 🚀 Instalação Rápida
+
+### Pré-requisitos
+
+- **Servidor Web**: Nginx ou Apache
+- **PHP**: 7.4 ou superior
+- **Base de Dados**: MySQL 5.7+ ou MariaDB 10+
+- **Extensões PHP**: PDO, MySQL, JSON, Session
+
+### Passos
+
+1. **Clone o repositório**
 ```bash
-cd /festadoviso/database
+git clone https://github.com/paulosantos-ai/festa-do-viso.git
+cd festa-do-viso
+```
+
+2. **Configure a base de dados**
+```bash
+cd database
 chmod +x setup.sh
 ./setup.sh
 ```
 
-O script irá:
-- Criar a base de dados `festa_viso`
-- Criar o utilizador `festa_viso_user`
-- Criar as tabelas necessárias
-- Inserir dados iniciais
+3. **Configure as credenciais**
+Edite `api/config.php` com as credenciais da base de dados.
 
-**Credenciais padrão:**
-- Utilizador BD: `festa_viso_user`
-- Password BD: `festa_viso_pass`
-- Password Admin: `admin123`
+4. **Configure o servidor web**
+- **Nginx**: Ver [INSTALACAO.md](INSTALACAO.md#5-configurar-php-fpm-para-nginx)
+- **Apache**: Ativar `mod_rewrite` e `mod_php`
 
-### 2. Configurar API
-
-Edite o ficheiro `api/config.php` e confirme as credenciais da base de dados:
-
-```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'festa_viso');
-define('DB_USER', 'festa_viso_user');
-define('DB_PASS', 'festa_viso_pass');
-```
-
-### 3. Configurar Servidor Web
-
-#### Nginx
-
-O servidor já deve estar configurado com o location `/festadoviso` apontando para o diretório da aplicação.
-
-Verifique se o PHP-FPM está ativo:
+5. **Configure permissões**
 ```bash
-sudo systemctl status php-fpm
+sudo chown -R www-data:www-data .
+sudo chmod -R 755 .
 ```
 
-#### Apache
-
-Se usar Apache, certifique-se de que `mod_rewrite` está ativado:
-```bash
-sudo a2enmod rewrite
-sudo systemctl restart apache2
+6. **Aceda à aplicação**
+```
+http://seu-servidor/festadoviso/
 ```
 
-### 4. Permissões
+📚 **Guia completo**: Ver [PASSOS_FINAIS.md](PASSOS_FINAIS.md) para instruções detalhadas passo a passo.
 
-```bash
-sudo chown -R www-data:www-data /festadoviso
-sudo chmod -R 755 /festadoviso
-sudo chmod 750 /festadoviso/api
-```
+---
 
-## 📁 Estrutura de Ficheiros
+## 🏗️ Arquitetura
+
+### Stack Tecnológica
 
 ```
-/festadoviso/
-├── index.html              # Página principal
-├── sorteio.html           # Interface de participação
-├── relatorios.html        # Vencedores semanais
-├── admin.html             # Painel de administração
-├── styles.css             # Estilos CSS
-├── sorteio.js             # JavaScript do sorteio
-├── admin.js               # JavaScript da administração
-├── relatorios.js          # JavaScript dos relatórios
-├── api/                   # Backend PHP
-│   ├── config.php         # Configuração e conexão BD
-│   ├── auth.php           # Autenticação
-│   ├── folhas.php         # Gestão de folhas
-│   ├── registos.php       # Gestão de registos
-│   └── vencedores.php     # Gestão de vencedores
-├── database/              # Scripts de base de dados
-│   ├── schema.sql         # Schema da BD
-│   └── setup.sh           # Script de instalação
-└── README.md              # Este ficheiro
+Frontend
+├── HTML5
+├── CSS3 (Design responsivo)
+└── JavaScript (ES6+, Fetch API)
+
+Backend
+├── PHP 7.4+ (OOP)
+├── PDO (Prepared Statements)
+└── REST API
+
+Base de Dados
+├── MySQL 5.7+ / MariaDB 10+
+└── InnoDB Engine
 ```
 
-## 🎮 Como Usar
+### Estrutura de Ficheiros
 
-### Para Utilizadores
+```
+festa-do-viso/
+├── 📄 index.html              # Página principal
+├── 📄 sorteio.html           # Interface de participação
+├── 📄 relatorios.html        # Vencedores semanais
+├── 📄 admin.html             # Painel de administração
+├── 🎨 styles.css             # Estilos CSS
+├── 📜 sorteio.js             # Lógica do sorteio
+├── 📜 admin.js               # Lógica da administração
+├── 📜 relatorios.js          # Lógica dos relatórios
+├── 📁 api/                   # Backend PHP
+│   ├── config.php            # Configuração e DB
+│   ├── auth.php              # Autenticação
+│   ├── folhas.php            # API de folhas
+│   ├── registos.php          # API de registos
+│   └── vencedores.php        # API de vencedores
+├── 📁 database/              # Scripts SQL
+│   ├── schema.sql            # Schema da BD
+│   └── setup.sh              # Script de instalação
+└── 📚 docs/                  # Documentação
+    ├── README.md
+    ├── INSTALACAO.md
+    └── PASSOS_FINAIS.md
+```
 
-1. Aceda a `http://192.168.64.2/festadoviso/`
-2. Clique em "Participar no Sorteio"
-3. Selecione uma folha disponível
-4. Escolha um número de 1 a 49
-5. Preencha o nome e contacto móvel
-6. Aguarde o sorteio de sexta-feira!
+---
 
-### Para Administradores
+## 💾 Base de Dados
 
-1. Aceda a `http://192.168.64.2/festadoviso/admin.html`
-2. Introduza a password: `admin123`
-3. Opções disponíveis:
-   - Criar novas folhas de sorteio
-   - Ver detalhes de cada folha
-   - Registar resultados do Euromilhões
-   - Consultar estatísticas
+### Schema
 
-## 🏆 Gestão de Sorteios
+```sql
+-- Folhas de sorteio
+CREATE TABLE folhas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    ativa TINYINT(1),
+    data_criacao TIMESTAMP
+);
 
-### Registar Vencedor
+-- Registos de números
+CREATE TABLE registos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    folha_id INT,
+    numero INT CHECK (numero BETWEEN 1 AND 49),
+    nome VARCHAR(200),
+    contacto VARCHAR(20),
+    data_registo TIMESTAMP,
+    UNIQUE(folha_id, numero)
+);
 
-1. Aceda ao painel de administração
-2. Selecione a folha do sorteio
-3. Introduza a data do sorteio (sexta-feira)
-4. Introduza o último número do Euromilhões (1-49)
-5. O sistema irá:
-   - Verificar se o número foi vendido
-   - Registar o vencedor
-   - Atualizar as estatísticas
+-- Vencedores
+CREATE TABLE vencedores (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    folha_id INT,
+    folha_nome VARCHAR(100),
+    data_sorteio DATE,
+    numero_vencedor INT,
+    vencedor_nome VARCHAR(200),
+    vencedor_contacto VARCHAR(20),
+    data_registo TIMESTAMP
+);
+```
 
-### Consultar Vencedores
-
-Os vencedores são publicados automaticamente na página "Vencedores" após o registo.
+---
 
 ## 🔒 Segurança
 
-### Alterar Password do Admin
+- ✅ **PDO com Prepared Statements** - Proteção contra SQL Injection
+- ✅ **Validação de dados** - Server-side e client-side
+- ✅ **Sessões PHP** - Autenticação segura com timeout
+- ✅ **Password hashing** - Bcrypt para passwords de admin
+- ✅ **CORS configurável** - Controlo de origem de pedidos
+- ✅ **Sanitização de inputs** - XSS prevention
 
-Edite o ficheiro `api/config.php`:
+### Alterar Password de Administração
 
-```php
-// Gerar novo hash (execute num terminal PHP):
+```bash
+# Gerar novo hash
 php -r "echo password_hash('nova_password', PASSWORD_DEFAULT);"
 
-// Atualize a constante:
+# Atualizar em api/config.php
 define('ADMIN_PASSWORD_HASH', 'novo_hash_aqui');
 ```
 
-### Proteção da API
+---
 
-- Autenticação obrigatória para operações administrativas
-- Validação de dados no servidor
-- Proteção contra SQL Injection (PDO com prepared statements)
-- Sanitização de inputs
-- Sessões seguras com timeout
+## 📱 Screenshots
 
-## 🔧 Troubleshooting
+### Interface de Participação
+![Sorteio](https://via.placeholder.com/800x400/3498db/ffffff?text=Grid+de+N%C3%BAmeros+1-49)
 
-### Erro de Conexão à Base de Dados
+### Painel de Administração
+![Admin](https://via.placeholder.com/800x400/2c3e50/ffffff?text=Painel+de+Administra%C3%A7%C3%A3o)
 
+### Vencedores
+![Vencedores](https://via.placeholder.com/800x400/27ae60/ffffff?text=Vencedores+Semanais)
+
+---
+
+## 🧪 Testes
+
+### Testar API
+
+```bash
+# Listar folhas
+curl http://localhost/festadoviso/api/folhas.php
+
+# Registar número (exemplo)
+curl -X POST http://localhost/festadoviso/api/registos.php \
+  -H "Content-Type: application/json" \
+  -d '{"folha_id":1,"numero":7,"nome":"João Silva","contacto":"912345678"}'
+
+# Listar vencedores
+curl http://localhost/festadoviso/api/vencedores.php
+```
+
+---
+
+## 📚 Documentação
+
+- **[INSTALACAO.md](INSTALACAO.md)** - Guia detalhado de instalação
+- **[PASSOS_FINAIS.md](PASSOS_FINAIS.md)** - Checklist de configuração
+- **Código comentado** - Documentação inline em todos os ficheiros
+
+---
+
+## 🔧 Configuração
+
+### Credenciais Padrão
+
+**Base de Dados:**
+- Host: `localhost`
+- Nome: `festa_viso`
+- Utilizador: `festa_viso_user`
+- Password: `festa_viso_pass`
+
+**Administração Web:**
+- URL: `/admin.html`
+- Password: `admin123`
+
+⚠️ **Importante**: Altere estas credenciais em ambiente de produção!
+
+---
+
+## 🐛 Resolução de Problemas
+
+### Erro: "Erro de conexão à base de dados"
 ```bash
 # Verificar se MySQL está ativo
 sudo systemctl status mysql
 
-# Verificar credenciais
+# Testar credenciais
 mysql -u festa_viso_user -p festa_viso
 ```
 
 ### Erro 500 nas APIs
-
 ```bash
-# Verificar logs do PHP
+# Ver logs PHP
 sudo tail -f /var/log/php-fpm/error.log
 
-# Verificar logs do Nginx
+# Ver logs Nginx
 sudo tail -f /var/log/nginx/error.log
 ```
 
-### Permissões
-
+### API retorna 404
 ```bash
-# Restaurar permissões corretas
-sudo chown -R www-data:www-data /festadoviso
-sudo chmod -R 755 /festadoviso
+# Verificar PHP-FPM
+sudo systemctl status php-fpm
+sudo systemctl start php-fpm
 ```
 
-## 📊 Base de Dados
+---
 
-### Backup
+## 📊 Roadmap
 
-```bash
-mysqldump -u festa_viso_user -p festa_viso > backup_$(date +%Y%m%d).sql
-```
+- [ ] Sistema de pagamentos integrado
+- [ ] Notificações por email/SMS
+- [ ] Exportação de relatórios (PDF/Excel)
+- [ ] Histórico de sorteios
+- [ ] Multi-idioma (PT/EN/ES)
+- [ ] API pública com documentação Swagger
+- [ ] Aplicação mobile (React Native)
 
-### Restore
+---
 
-```bash
-mysql -u festa_viso_user -p festa_viso < backup_20240211.sql
-```
+## 🤝 Contribuir
 
-## 🆘 Suporte
+Contribuições são bem-vindas! Por favor:
 
-Para problemas ou questões, contacte o administrador do sistema.
+1. Faça fork do projeto
+2. Crie um branch para a feature (`git checkout -b feature/MinhaFeature`)
+3. Commit as alterações (`git commit -m 'Adicionar MinhaFeature'`)
+4. Push para o branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
 
-## 📝 Licença
+---
 
-© 2024 Comissão de Festas do Viso - Todos os direitos reservados.
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Ver ficheiro [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 👥 Autores
+
+- **Paulo Santos** - *Desenvolvimento* - [@paulosantos-ai](https://github.com/paulosantos-ai)
+- **Claude Sonnet 4.5** - *Assistência no desenvolvimento*
+
+---
+
+## 📞 Suporte
+
+Para questões ou problemas:
+- 📧 Email: psantos@itcenter.pt
+- 🐛 Issues: [GitHub Issues](https://github.com/paulosantos-ai/festa-do-viso/issues)
+
+---
+
+## 🙏 Agradecimentos
+
+- Comissão de Festas do Viso
+- Comunidade de desenvolvimento PHP
+- Contribuidores do projeto
+
+---
+
+<div align="center">
+
+**Desenvolvido com ❤️ para a Comissão de Festas do Viso**
+
+[⬆ Voltar ao topo](#-festa-do-viso---sistema-de-sorteio-euromilhões)
+
+</div>
