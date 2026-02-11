@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Festa do Viso</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎉 Festa do Viso</h1>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="sorteio.html">Participar no Sorteio</a>
+                <a href="relatorios.html">Vencedores</a>
+                <a href="admin.html" class="active">Administração</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Área de Login -->
+        <div id="loginArea" class="admin-section">
+            <h2>Acesso à Administração</h2>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="password">Palavra-passe:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-primary">Entrar</button>
+            </form>
+            <p class="help-text">Palavra-passe padrão: admin123</p>
+        </div>
+
+        <!-- Área de Administração -->
+        <div id="adminArea" style="display: none;">
+            <div class="admin-header">
+                <h2>Painel de Administração</h2>
+                <button id="logoutBtn" class="btn-secondary">Sair</button>
+            </div>
+
+            <!-- Gestão de Folhas -->
+            <section class="admin-section">
+                <h3>Gestão de Folhas de Sorteio</h3>
+                <button id="addFolhaBtn" class="btn-primary">+ Nova Folha</button>
+
+                <div id="folhasList" class="folhas-list">
+                    <!-- Lista de folhas será carregada aqui -->
+                </div>
+            </section>
+
+            <!-- Definir Vencedor -->
+            <section class="admin-section">
+                <h3>Registar Resultado do Sorteio</h3>
+                <form id="vencedorForm">
+                    <div class="form-group">
+                        <label for="folhaVencedor">Folha do Sorteio:</label>
+                        <select id="folhaVencedor" required>
+                            <!-- Opções carregadas dinamicamente -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="datasorteio">Data do Sorteio (Sexta-feira):</label>
+                        <input type="date" id="dataSorteio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numeroVencedor">Último Número do Euromilhões (1-49):</label>
+                        <input type="number" id="numeroVencedor" min="1" max="49" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Registar Vencedor</button>
+                </form>
+            </section>
+
+            <!-- Estatísticas -->
+            <section class="admin-section">
+                <h3>Estatísticas</h3>
+                <div id="estatisticas" class="stats-grid">
+                    <!-- Estatísticas serão carregadas aqui -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Modal Nova Folha -->
+        <div id="novaFolhaModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Criar Nova Folha de Sorteio</h3>
+                <form id="novaFolhaForm">
+                    <div class="form-group">
+                        <label for="nomeFolha">Nome da Folha:</label>
+                        <input type="text" id="nomeFolha" placeholder="Ex: Semana 2" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelarFolhaBtn">Cancelar</button>
+                        <button type="submit" class="btn-primary">Criar Folha</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Festa do Viso - Comissão de Festas</p>
+        </div>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>

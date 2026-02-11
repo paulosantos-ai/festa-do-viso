@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participar no Sorteio - Festa do Viso</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎉 Festa do Viso</h1>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="sorteio.html" class="active">Participar no Sorteio</a>
+                <a href="relatorios.html">Vencedores</a>
+                <a href="admin.html">Administração</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Participe no Sorteio Euromilhões</h2>
+
+        <div class="folha-selector">
+            <label for="folhaSelect">Selecione a Folha de Sorteio:</label>
+            <select id="folhaSelect">
+                <!-- Folhas serão carregadas dinamicamente -->
+            </select>
+            <div class="folha-info">
+                <span id="folhaStatus"></span>
+            </div>
+        </div>
+
+        <div class="numeros-grid" id="numerosGrid">
+            <!-- Números de 1 a 49 serão gerados aqui -->
+        </div>
+
+        <div class="legenda">
+            <span class="legenda-item"><span class="numero-box disponivel"></span> Disponível</span>
+            <span class="legenda-item"><span class="numero-box ocupado"></span> Ocupado</span>
+            <span class="legenda-item"><span class="numero-box selecionado"></span> Selecionado</span>
+        </div>
+
+        <!-- Modal de Registo -->
+        <div id="registoModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Registar Número <span id="numeroSelecionado"></span></h3>
+                <form id="registoForm">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo:</label>
+                        <input type="text" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contacto">Contacto Móvel:</label>
+                        <input type="tel" id="contacto" pattern="[0-9]{9}" placeholder="9 dígitos" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelarBtn">Cancelar</button>
+                        <button type="submit" class="btn-primary">Confirmar Registo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de Visualização -->
+        <div id="visualizarModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Número <span id="numeroVisualizado"></span></h3>
+                <div id="infoParticipante">
+                    <!-- Informações serão carregadas aqui -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Festa do Viso - Comissão de Festas</p>
+        </div>
+    </footer>
+
+    <script src="sorteio.js"></script>
+</body>
+</html>

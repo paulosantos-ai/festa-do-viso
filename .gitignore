@@ -1,0 +1,15 @@
+# Backups
+*.backup
+
+# Documentos de trabalho
+*.docx
+product-brief*.md
+
+# Diretórios de desenvolvimento
+demo/
+.claude/
+
+# Ficheiros temporários
+.DS_Store
+*.tmp
+*.log
