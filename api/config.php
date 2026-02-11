@@ -13,7 +13,7 @@ define('ADMIN_SESSION_NAME', 'festa_viso_admin');
 define('SESSION_TIMEOUT', 3600); // 1 hora
 
 // Configurações de Segurança
-define('ADMIN_PASSWORD_HASH', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); // admin123
+define('ADMIN_PASSWORD_HASH', '$2y$10$ON.M2AMIpe8QEt2TsN20OeOvj8PfMFh5D0V2UncINNQIv6AEUecjy'); // admin123
 
 // Classe de Conexão à Base de Dados
 class Database {
