@@ -23,19 +23,21 @@ jobs:
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: chmod +x android-app/gradlew
 
     - name: Build Debug APK
+      working-directory: android-app
       run: ./gradlew assembleDebug --stacktrace
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: festa-do-viso-debug-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: android-app/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
 
     - name: Build Release APK (unsigned)
+      working-directory: android-app
       run: ./gradlew assembleRelease --stacktrace
       continue-on-error: true
 
@@ -44,5 +46,5 @@ jobs:
       if: success()
       with:
         name: festa-do-viso-release-apk
-        path: app/build/outputs/apk/release/*.apk
+        path: android-app/app/build/outputs/apk/release/*.apk
         retention-days: 30
