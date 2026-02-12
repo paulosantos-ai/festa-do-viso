@@ -1,0 +1,148 @@
+================================================================================
+FESTA DO VISO - APLICAÇÃO ANDROID
+Como Compilar e Instalar
+================================================================================
+
+RESUMO RÁPIDO:
+1. Abrir pasta 'android-app' no Android Studio
+2. Aguardar sincronização do Gradle (3-5 min)
+3. Build → Build APK
+4. Instalar APK no dispositivo Android
+
+================================================================================
+OPÇÃO 1: ANDROID STUDIO (RECOMENDADO)
+================================================================================
+
+REQUISITOS:
+- Android Studio Hedgehog 2023.1.1 ou superior
+- JDK 17
+- Android SDK com API 34 (Android 14)
+
+PASSOS:
+
+1. ABRIR PROJETO
+   - Abrir Android Studio
+   - File → Open
+   - Selecionar pasta: android-app/
+   - Aguardar sincronização Gradle (primeira vez demora ~5 minutos)
+
+2. COMPILAR APK
+   - Build → Build Bundle(s) / APK(s) → Build APK(s)
+   - Aguardar compilação (~3-5 minutos)
+   - Clicar "locate" na notificação
+   - APK em: app/build/outputs/apk/debug/app-debug.apk
+
+3. INSTALAR NO DISPOSITIVO
+
+   3a) Via USB:
+       - Ativar "Modo Programador" no Android:
+         Definições → Acerca do telefone → Tocar 7x "Número de compilação"
+       - Ativar "Depuração USB":
+         Definições → Sistema → Opções do programador → Depuração USB
+       - Ligar dispositivo ao PC via USB
+       - No Android Studio: Run → Run 'app'
+
+   3b) Via Ficheiro APK:
+       - Copiar app-debug.apk para o dispositivo
+       - No dispositivo: Abrir Ficheiros
+       - Tocar no ficheiro APK
+       - Permitir instalação de fontes desconhecidas (se pedido)
+       - Instalar
+
+================================================================================
+OPÇÃO 2: LINHA DE COMANDOS (macOS/Linux)
+================================================================================
+
+cd android-app
+chmod +x gradlew
+./gradlew assembleDebug
+
+APK estará em: app/build/outputs/apk/debug/app-debug.apk
+
+OU usar script auxiliar:
+
+chmod +x build-apk.sh
+./build-apk.sh
+
+================================================================================
+VERIFICAR INSTALAÇÃO
+================================================================================
+
+Depois de instalar a app:
+
+✓ Abrir app "Festa do Viso"
+✓ Separador "Sorteio" → Ver grid 1-49
+✓ Selecionar folha e registar um número
+✓ Separador "Vencedores" → Ver lista (vazia inicialmente)
+✓ Separador "Admin" → Login: admin / admin123
+✓ Ver estatísticas e criar nova folha
+
+================================================================================
+CREDENCIAIS PADRÃO
+================================================================================
+
+Username: admin
+Password: admin123
+
+================================================================================
+PROBLEMAS COMUNS
+================================================================================
+
+1. "SDK location not found"
+   → Criar ficheiro local.properties:
+     sdk.dir=/Users/SEUNOME/Library/Android/sdk
+
+2. "Gradle sync failed"
+   → File → Invalidate Caches → Restart
+
+3. App fecha ao abrir
+   → Verificar logs no Logcat
+   → Reinstalar app
+
+4. Notificações não aparecem
+   → Definições → Apps → Festa do Viso → Notificações → Ativar
+
+================================================================================
+CARACTERÍSTICAS DA APP
+================================================================================
+
+✓ 100% Offline (sem internet necessária)
+✓ Base de dados local SQLite
+✓ Interface moderna Jetpack Compose
+✓ Notificações todas as sextas-feiras às 22h
+✓ Password segura com BCrypt
+✓ Arquitetura MVVM + Clean Architecture
+
+FUNCIONALIDADES:
+- Participantes: escolher números 1-49, registar nome/contacto
+- Administradores: criar folhas, registar vencedores, ver estatísticas
+- Notificações: lembrete automático do sorteio Euromilhões
+
+REQUISITOS SISTEMA:
+- Android 7.0 (API 24) ou superior
+- ~10 MB espaço livre
+- Permissões: Notificações, Alarmes exatos
+
+================================================================================
+FICHEIROS CRIADOS
+================================================================================
+
+Total: ~50 ficheiros Kotlin/XML/Gradle
+
+Estrutura:
+- data/ → Entities, DAOs, Repositories, Database
+- domain/ → Models, Use Cases
+- ui/ → Screens (Sorteio, Vencedores, Admin), Navigation, Theme
+- di/ → Hilt Modules
+- workers/ → Notificações WorkManager
+- res/ → Recursos (strings, colors, themes)
+
+================================================================================
+SUPORTE
+================================================================================
+
+README completo: android-app/README.md
+Instruções detalhadas: android-app/INSTRUCOES.md
+Issues: https://github.com/paulosantos-ai/festa-do-viso/issues
+
+================================================================================

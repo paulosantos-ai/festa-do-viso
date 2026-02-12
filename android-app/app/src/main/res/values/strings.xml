@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Festa do Viso</string>
+    <string name="sorteio">Sorteio</string>
+    <string name="vencedores">Vencedores</string>
+    <string name="admin">Administração</string>
+    <string name="selecione_numero">Selecione um número</string>
+    <string name="numero_ocupado">Número ocupado</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="contacto">Contacto (9 dígitos)</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="entrar">Entrar</string>
+    <string name="sair">Sair</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="criar_folha">Criar Folha</string>
+    <string name="registar_vencedor">Registar Vencedor</string>
+    <string name="notification_channel_name">Lembretes de Sorteio</string>
+    <string name="notification_channel_description">Notificações sobre o sorteio semanal do Euromilhões</string>
+</resources>
