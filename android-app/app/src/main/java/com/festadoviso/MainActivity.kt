@@ -3,6 +3,7 @@ package com.festadoviso
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -10,6 +11,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -20,9 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,10 +55,11 @@ fun FestaDoVisoTheme(content: @Composable () -> Unit) {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AppNavigation(dataManager: DataManager) {
-    val navController = rememberNavController()
-    var selectedTab by remember { mutableStateOf(0) }
+    val pagerState = rememberPagerState(pageCount = { 3 })
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         bottomBar = {
@@ -65,47 +67,47 @@ fun AppNavigation(dataManager: DataManager) {
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.GridOn, null) },
                     label = { Text("Sorteio") },
-                    selected = selectedTab == 0,
+                    selected = pagerState.currentPage == 0,
                     onClick = {
-                        selectedTab = 0
-                        navController.navigate("sorteio") {
-                            popUpTo("sorteio") { inclusive = true }
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(0)
                         }
                     }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.EmojiEvents, null) },
                     label = { Text("Vencedores") },
-                    selected = selectedTab == 1,
+                    selected = pagerState.currentPage == 1,
                     onClick = {
-                        selectedTab = 1
-                        navController.navigate("vencedores") {
-                            popUpTo("sorteio")
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(1)
                         }
                     }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.AdminPanelSettings, null) },
                     label = { Text("Admin") },
-                    selected = selectedTab == 2,
+                    selected = pagerState.currentPage == 2,
                     onClick = {
-                        selectedTab = 2
-                        navController.navigate("admin") {
-                            popUpTo("sorteio")
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(2)
                         }
                     }
                 )
             }
         }
     ) { padding ->
-        NavHost(
-            navController = navController,
-            startDestination = "sorteio",
-            modifier = Modifier.padding(padding)
-        ) {
-            composable("sorteio") { SorteioScreen(dataManager) }
-            composable("vencedores") { VencedoresScreen(dataManager) }
-            composable("admin") { AdminScreen(dataManager) }
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) { page ->
+            when (page) {
+                0 -> SorteioScreen(dataManager)
+                1 -> VencedoresScreen(dataManager)
+                2 -> AdminScreen(dataManager)
+            }
         }
     }
 }
@@ -173,7 +175,7 @@ fun SorteioScreen(dataManager: DataManager) {
                                     Column {
                                         Text(folha.nome, fontWeight = FontWeight.Bold)
                                         Text(
-                                            "${numerosOcupados.size}/49 ocupados",
+                                            "${numerosOcupados.size}/50 ocupados",
                                             style = MaterialTheme.typography.bodySmall
                                         )
                                     }
@@ -202,7 +204,7 @@ fun SorteioScreen(dataManager: DataManager) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            "Disponíveis: ${49 - numerosOcupados.size}/49",
+                            "Disponíveis: ${50 - numerosOcupados.size}/50",
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
@@ -221,7 +223,7 @@ fun SorteioScreen(dataManager: DataManager) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items((1..49).toList()) { numero ->
+                    items((1..50).toList()) { numero ->
                         val isOcupado = numerosOcupados.contains(numero)
                         Button(
                             onClick = {
@@ -679,7 +681,7 @@ fun AdminPanelScreen(dataManager: DataManager, onLogout: () -> Unit) {
                                 )
                             )
                             Text(
-                                "${dataManager.getNumerosOcupados(folha.id).size}/49 números",
+                                "${dataManager.getNumerosOcupados(folha.id).size}/50 números",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color.Gray
                             )
@@ -802,7 +804,7 @@ fun AdminPanelScreen(dataManager: DataManager, onLogout: () -> Unit) {
                         OutlinedTextField(
                             value = numeroVencedor,
                             onValueChange = { if (it.length <= 2) numeroVencedor = it },
-                            label = { Text("Número Vencedor (1-49)") },
+                            label = { Text("Número Vencedor (1-50)") },
                             modifier = Modifier.fillMaxWidth()
                         )
 
