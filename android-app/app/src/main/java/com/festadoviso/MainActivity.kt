@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,7 +14,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.ui.input.pointer.pointerInput
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -55,11 +58,9 @@ fun FestaDoVisoTheme(content: @Composable () -> Unit) {
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AppNavigation(dataManager: DataManager) {
-    val pagerState = rememberPagerState(pageCount = { 3 })
-    val coroutineScope = rememberCoroutineScope()
+    var selectedTab by remember { mutableStateOf(0) }
 
     Scaffold(
         bottomBar = {
@@ -67,43 +68,26 @@ fun AppNavigation(dataManager: DataManager) {
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.GridOn, null) },
                     label = { Text("Sorteio") },
-                    selected = pagerState.currentPage == 0,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(0)
-                        }
-                    }
+                    selected = selectedTab == 0,
+                    onClick = { selectedTab = 0 }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.EmojiEvents, null) },
                     label = { Text("Vencedores") },
-                    selected = pagerState.currentPage == 1,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(1)
-                        }
-                    }
+                    selected = selectedTab == 1,
+                    onClick = { selectedTab = 1 }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.AdminPanelSettings, null) },
                     label = { Text("Admin") },
-                    selected = pagerState.currentPage == 2,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(2)
-                        }
-                    }
+                    selected = selectedTab == 2,
+                    onClick = { selectedTab = 2 }
                 )
             }
         }
     ) { padding ->
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) { page ->
-            when (page) {
+        Box(modifier = Modifier.padding(padding)) {
+            when (selectedTab) {
                 0 -> SorteioScreen(dataManager)
                 1 -> VencedoresScreen(dataManager)
                 2 -> AdminScreen(dataManager)
@@ -112,11 +96,23 @@ fun AppNavigation(dataManager: DataManager) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+// Helper function to get current week name
+fun getCurrentWeekName(): String {
+    val calendar = Calendar.getInstance()
+    val weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR)
+    return "Semana $weekOfYear"
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun SorteioScreen(dataManager: DataManager) {
     var folhas by remember { mutableStateOf(dataManager.getFolhasAtivas()) }
-    var folhaSelecionada by remember { mutableStateOf(folhas.firstOrNull()) }
+
+    // Auto-select current week or first available
+    val currentWeekName = getCurrentWeekName()
+    val initialFolha = folhas.firstOrNull { it.nome == currentWeekName } ?: folhas.firstOrNull()
+
+    var folhaSelecionada by remember { mutableStateOf(initialFolha) }
     var numerosOcupados by remember { mutableStateOf(setOf<Int>()) }
     var selectedNumber by remember { mutableStateOf<Int?>(null) }
     var showDialog by remember { mutableStateOf(false) }
