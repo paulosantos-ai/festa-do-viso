@@ -238,20 +238,13 @@ fun SorteioScreen(dataManager: DataManager) {
                             ),
                             shape = RoundedCornerShape(8.dp)
                         ) {
-                            if (isOcupado) {
-                                Icon(
-                                    Icons.Default.Check,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            } else {
-                                Text(
-                                    numero.toString(),
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                )
-                            }
+                            Text(
+                                numero.toString(),
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                color = if (isOcupado) Color.White.copy(alpha = 0.6f) else Color.White
+                            )
                         }
                     }
                 }
